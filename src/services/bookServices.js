@@ -16,9 +16,9 @@ export const getBooks = () => {
   });
 };
 
-export const getCart = userId => {
+export const getCart = () => {
   return new Promise((resolve, reject) => {
-    fetch(`https://w1h47.sse.codesandbox.io/user/cart/${userId}`, {
+    fetch(`https://w1h47.sse.codesandbox.io/user/cart`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -39,14 +39,13 @@ export const getCart = userId => {
       });
   });
 };
-export const addBookToCart = (bookId, userId) => {
+export const addBookToCart = bookId => {
   //Authorization: localStorage.getItem("jwt")
   const data = {
-    bookId,
-    userId
+    bookId
   };
   return new Promise((resolve, reject) => {
-    fetch(`https://w1h47.sse.codesandbox.io/user/addcart`, {
+    fetch(`https://w1h47.sse.codesandbox.io/user/cart`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
@@ -74,10 +73,9 @@ export const addBookToCart = (bookId, userId) => {
   });
 };
 
-export const removeBookFromCart = async (userId, bookId) => {
+export const removeBookFromCart = async bookId => {
   try {
     const data = {
-      userId,
       bookId
     };
     let url = "https://w1h47.sse.codesandbox.io/user/cart";
@@ -98,11 +96,8 @@ export const removeBookFromCart = async (userId, bookId) => {
   }
 };
 
-export const addBookToUser = async userId => {
+export const addBookToUser = async () => {
   try {
-    const data = {
-      userId
-    };
     let url = "https://w1h47.sse.codesandbox.io/user/book";
     let config = {
       method: "PATCH", // *GET, POST, PUT, DELETE, etc.
@@ -111,8 +106,7 @@ export const addBookToUser = async userId => {
       headers: {
         "Content-Type": "application/json",
         Authorization: localStorage.getItem("jwt")
-      },
-      body: JSON.stringify(data)
+      }
     };
     const response = await fetch(url, config);
     return await response.json();

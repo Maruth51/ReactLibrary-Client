@@ -1,23 +1,18 @@
 import React, { Fragment, useContext, useEffect, useState } from "react";
 import CartBook from "../components/CartBook";
 import { userContext } from "../store/UserContext";
-import {
-  getCart,
-  removeBookFromCart,
-  addBookToUser
-} from "../services/bookServices";
+import { getCart, addBookToUser } from "../services/bookServices";
 import { Spinner } from "react-bootstrap";
 import CheckoutButton from "../components/CheckoutButton";
 import { NavLink } from "react-router-dom";
 
 const CartPage = () => {
-  const { user, dispatch } = useContext(userContext);
   const [isLoading, setLoading] = useState(true);
+  const [isAvailable, setAvailable] = useState(true);
   const [cart, setCart] = useState([]);
   //get userid from context
-  const userId = user.userData._id;
   useEffect(() => {
-    getCart(userId).then(res => {
+    getCart().then(res => {
       if (res.status === "Success") {
         setLoading(false);
         setCart(res.cart);
@@ -25,16 +20,16 @@ const CartPage = () => {
     });
   }, []);
 
-  const updateCart = bookIdx => {
+  const updateCart = bookId => {
     let newCart = cart.filter((book, idx) => {
-      if (idx === bookIdx) {
+      if (book._id === bookId) {
         return false;
       } else return true;
     });
     setCart(newCart);
   };
   const handleCheckout = () => {
-    addBookToUser(userId)
+    addBookToUser()
       .then(res => {
         setCart([]);
       })
@@ -73,22 +68,17 @@ const CartPage = () => {
                   </thead>
                   <tbody>
                     {cart.map((book, index) => {
-                      const handleRemove = () => {
-                        removeBookFromCart(userId, book._id)
-                          .then(res => {
-                            if (res.status === "Success") {
-                              updateCart(index);
-                            }
-                          })
-                          .catch(err => {});
-                      };
+                      if (book.count <= 0) {
+                        setAvailable(false);
+                      }
                       return (
                         <CartBook
-                          key={index}
+                          key={book._id}
                           title={book.title}
                           author={book.author}
                           available={book.count > 0}
-                          handleRemove={handleRemove}
+                          bookId={book._id}
+                          updateCart={updateCart}
                         />
                       );
                     })}
@@ -104,7 +94,10 @@ const CartPage = () => {
                   </button>
                 </div>
                 <div className="col-sm-12 col-md-6 text-right">
-                  <CheckoutButton handleCheckout={handleCheckout} />{" "}
+                  <CheckoutButton
+                    handleCheckout={handleCheckout}
+                    isAvailable={isAvailable}
+                  />{" "}
                 </div>
               </div>
             </div>

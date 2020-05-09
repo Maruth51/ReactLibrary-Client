@@ -1,13 +1,19 @@
 import React, { Fragment, useState } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 import { Spinner } from "react-bootstrap";
+import { removeBookFromCart } from "../services/bookServices";
 
-const CartBook = ({ title, author, available, handleRemove }) => {
+const CartBook = ({ title, author, available, bookId, updateCart }) => {
   const [isLoading, setLoading] = useState(false);
   const handleClick = () => {
     setLoading(true);
-    handleRemove();
-    setLoading(false);
+    removeBookFromCart(bookId)
+      .then(res => {
+        if (res.status === "Success") {
+          updateCart(bookId);
+        }
+      })
+      .catch(err => {});
   };
   return (
     <Fragment>

@@ -1,15 +1,13 @@
 import React, { useState, useContext } from "react";
 import { Button } from "react-bootstrap";
 import { addBookToCart } from "../services/bookServices";
-import { userContext } from "../store/UserContext";
 import { toast } from "react-toastify";
 function AddCartButton({ bookId }) {
-  const { user, dispatch } = useContext(userContext);
   const [isLoading, setLoading] = useState(false);
 
   const handleClick = () => {
     setLoading(true);
-    addBookToCart(bookId, user.userData._id)
+    addBookToCart(bookId)
       .then(res => {
         if (res.status === "Success") {
           toast.success("Book added to Your Cart");
@@ -25,7 +23,6 @@ function AddCartButton({ bookId }) {
           toast.error("Login to add to cart", {
             position: toast.POSITION.BOTTOM_RIGHT
           });
-          dispatch({ type: "Logout" });
         } else {
           toast.error("Network Error;", {
             position: toast.POSITION.BOTTOM_RIGHT
