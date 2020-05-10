@@ -20,6 +20,7 @@ const Login = () => {
         if (res.status === "Success") {
           dispatch({ type: "Login" });
           dispatch({ type: "Login", data: res.user });
+          window.localStorage.setItem("user", JSON.stringify(res.user));
           window.localStorage.setItem("jwt", res.jwt);
           history.push("/");
         } else if (res.status === "Invalid Password") {

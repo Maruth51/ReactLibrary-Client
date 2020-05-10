@@ -1,8 +1,10 @@
 import { createContext, useReducer } from "react";
 import React from "react";
 const initialState = {
-  isLoggedIn: false,
-  userData: {}
+  isLoggedIn: localStorage.getItem("jwt") ? true : false,
+  userData: localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
+    : {}
 };
 export const userContext = createContext(false);
 const { Provider } = userContext;
