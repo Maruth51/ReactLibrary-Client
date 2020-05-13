@@ -17,6 +17,7 @@ const Signup = () => {
   const history = useHistory();
 
   const handleSubmit = event => {
+    setLoading(true);
     const form = event.currentTarget;
     setValidated(true);
     event.preventDefault();
@@ -40,6 +41,7 @@ const Signup = () => {
         })
         .catch(err => {
           toast.error(err);
+          setLoading(false);
         });
     }
   };
@@ -181,7 +183,11 @@ const Signup = () => {
           <Form.Control
             type="password"
             required
-            isInvalid={passwordConfirm !== password}
+            isInvalid={
+              passwordConfirm.length > 0
+                ? passwordConfirm.localeCompare(password)
+                : false
+            }
             onChange={e => {
               setPasswordConfirm(e.target.value);
             }}
@@ -191,14 +197,7 @@ const Signup = () => {
             confirm password should match password
           </Form.Control.Feedback>
         </Form.Group>
-        <Button
-          variant="primary"
-          type="submit"
-          disabled={isLoading}
-          onClick={() => {
-            setLoading(true);
-          }}
-        >
+        <Button variant="primary" type="submit" disabled={isLoading}>
           {isLoading ? "Loading..." : "Register"}
         </Button>
       </Form>

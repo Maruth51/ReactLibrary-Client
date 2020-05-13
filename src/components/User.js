@@ -37,6 +37,7 @@ export const UserComponent = () => {
                 to="/"
                 onClick={() => {
                   localStorage.removeItem("jwt");
+                  localStorage.removeItem("user");
                   dispatch({ type: "Logout" });
                   window.location.reload();
                 }}

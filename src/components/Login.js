@@ -79,9 +79,6 @@ const Login = () => {
           <Button type="submit" variant="primary" disabled={isLoading}>
             {isLoading ? "Loading…" : "Submit"}
           </Button>
-          <p className="forgot-password text-right">
-            Forgot <a href="/">password?</a>
-          </p>
         </form>
       </div>
     </div>

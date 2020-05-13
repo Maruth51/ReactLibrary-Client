@@ -29,4 +29,4 @@ const NavbarComponent = () => {
   );
 };
 
-module.exports = NavbarComponent;
+export default NavbarComponent;
