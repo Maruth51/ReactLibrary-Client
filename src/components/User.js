@@ -1,6 +1,6 @@
 import React, { useContext, Fragment } from "react";
-import { Nav, Dropdown, NavDropdown, NavItem } from "react-bootstrap";
-import { NavLink, Link } from "react-router-dom";
+import { Nav, Dropdown } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import { userContext } from "../store/UserContext";
 
 export const UserComponent = () => {

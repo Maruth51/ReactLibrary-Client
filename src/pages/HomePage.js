@@ -5,6 +5,7 @@ import Book from "../components/Book";
 import { getBooks } from "../services/bookServices";
 import { toast } from "react-toastify";
 const HomePage = () => {
+  const [isLoading, setLoading] = useState();
   const [books, setBooks] = useState([]);
   useEffect(() => {
     getBooks()
